@@ -6,10 +6,6 @@ library(tidyverse)
 
 # note: the pipe ( |> ) is only compatible with R version >= 4.1
 
-x <- 1:10
-
-a <- mean(x)
-
 # 4 subgroups of participants with diabetes and 2 treatment groups
 # group 1: 2178
 # group 2: 716
@@ -20,13 +16,24 @@ a <- mean(x)
 # TODO 1. set trt/control assignment to match observed data
 # TODO 2. figure out effect sizes for the simulation.
 
-grp_sizes <- c(2178, 716, 1222, 1029)
+              # g1  g2  g3  g4
+grp_sizes <- c(841,268,448,396,     # control
+               844,230,481,433) |>  # treatment
+  matrix(nrow = 2, byrow = TRUE)
 
-data_trtgrps <- 
-  tibble(grp_diabetes = rep(c(1,2,3,4), times = grp_sizes)) |> 
-  mutate(grp_tx = rbinom(n = 5145, size = 1, prob = 1/2)) |> 
-  mutate(grp_diabetes = factor(grp_diabetes, labels = letters[1:4]),
-         grp_tx = factor(grp_tx, labels = c('no', 'yes')))
+grp_sizes_by_diab <- apply(grp_sizes, 2, sum)
+
+data_trtgrps <- tibble(
+  grp_diabetes = rep(c(1,2,3,4), times = grp_sizes_by_diab)
+) |> 
+  mutate(grp_tx = 0) |> 
+  group_by(grp_diabetes) %>% 
+  split(f = .$grp_diabetes) |> 
+  map2_dfr(.y = grp_sizes[2, ],
+           ~ {
+             .x$grp_tx[sample(nrow(.x), .y)] = 1
+             .x
+           })
 
 X <- model.matrix(~grp_diabetes * grp_tx, data = data_trtgrps)
 
@@ -73,16 +80,39 @@ sim_run <- function(beta, X, beta_vec, data_trtgrps, cens_prop){
     mutate(time = data_sim$data$y,
            status = as.numeric(data_sim$data$failed))
   
-  browser()
-  
   mdl_cox <- 
     coxph(Surv(time, status) ~ grp_diabetes * grp_tx, data = data_mdl)
   
-  anova(mdl_cox)
+  mdl_cox_anova <- broom::tidy(anova(mdl_cox))
+  
+  mdl_cox_bias <- beta[-1] - coef(mdl_cox) 
+  
+  # list(
+  #   anova = mdl_cox_anova,
+  #   bias = mdl_cox_bias
+  # )
+  
+  mdl_cox_anova
+  
   
 }
 
-sim_run(beta, X, beta_vec = beta_vec_static, data_trtgrps, cens_prop = 0.84)
+results <- replicate(
+  n = 1000,
+  expr = sim_run(beta, 
+                 X, 
+                 beta_vec = beta_vec_static, 
+                 data_trtgrps, 
+                 cens_prop = 0.8),
+  simplify = FALSE
+)
+
+results |> 
+  bind_rows(.id = 'iter') |> 
+  filter(term == 'grp_diabetes:grp_tx') |> 
+  summarize(power = mean(p.value < 0.05))
+
+
 
 
 
