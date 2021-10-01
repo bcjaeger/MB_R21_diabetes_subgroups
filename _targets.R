@@ -40,6 +40,6 @@ tar_plan(
   
   results_gt = results_tabulate(results_filled),
   
-  tar_render(report, "doc/report.Rmd")
+  tar_render(report, "docs/index.Rmd")
   
 )
