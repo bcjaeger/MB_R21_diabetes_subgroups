@@ -8,11 +8,11 @@ beta_10|stem|832a38b78e7fa4a7|50b773ef0e1ba65c|a9fe56ffdaf77e9a|1734282165||t189
 beta_20|stem|dcf895691fe71d64|d8c19c87496469f5|a9fe56ffdaf77e9a|-1730777133||t18901.5570781606s|133046f721ebc445|199|rds|vector|||0||
 results_init|stem|902dc09f0e27b44c|d5dac7caa8d430e1|6169e21e0133f508|-1947491854||t18901.5570783458s|948059c0f0375919|436|rds|vector|||0||
 results_filled|stem|a76a171125b0a77b|8f98efd2a4eeee3d|c92dfcc158d7cdc3|-761203555||t18901.7217953568s|15ff0f5fa8d97da6|74761|rds|vector|||5415.98||
+results_gt|stem|bb1df2d4fbaa62e2|55578021462b3cf8|cf6f283b059fd3d2|-73333914||t18901.8031947314s|e99cf496b48d6bc4|2208|rds|vector|||0.08||
 results_tabulate|function|336fe174f638a459||||||||||||||
 sim_run|function|f031c4739dbf6a9f||||||||||||||
 beta_vec_decay|function|5fa2142ac44fbb15||||||||||||||
 data_conv_to_mat|function|4bec6dea786e73e6||||||||||||||
 data_initialize|function|d199a72860240959||||||||||||||
 results_fill|function|7a2d86001195261b||||||||||||||
-results_gt|stem|bb1df2d4fbaa62e2|55578021462b3cf8|cf6f283b059fd3d2|-73333914||t18901.8031947314s|e99cf496b48d6bc4|2208|rds|vector|||0.08||
-report|stem|061ad62dac86516f|f31600db668ee70c|ca16b0ac64901529|-237041703|doc/report.html*doc/report.Rmd|t18901.8032103831s|9ccee947ae43d1b9|751552|file|vector|||1.42||
+report|stem|0b88499a218e6471|f31600db668ee70c|ca16b0ac64901529|-237041703|doc/report.html*doc/report.Rmd|t18901.8113410336s|12cba656d5881a2f|751895|file|vector|||1.27||
