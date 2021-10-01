@@ -26,14 +26,19 @@ grp_sizes_by_diab <- apply(grp_sizes, 2, sum)
 data_trtgrps <- tibble(
   grp_diabetes = rep(c(1,2,3,4), times = grp_sizes_by_diab)
 ) |> 
-  mutate(grp_tx = 0) |> 
-  group_by(grp_diabetes) %>% 
+  mutate(grp_tx = 0) %>%
   split(f = .$grp_diabetes) |> 
-  map2_dfr(.y = grp_sizes[2, ],
-           ~ {
-             .x$grp_tx[sample(nrow(.x), .y)] = 1
-             .x
-           })
+  map2_dfr(
+    .y = grp_sizes[2, ],
+    ~ {
+      .x$grp_tx[sample(nrow(.x), .y)] = 1
+      .x
+    }
+  ) |> 
+  mutate(
+    grp_tx = factor(grp_tx, labels = c('no', 'yes')),
+    grp_diabetes = factor(grp_diabetes, labels = letters[1:4])
+  )
 
 X <- model.matrix(~grp_diabetes * grp_tx, data = data_trtgrps)
 
@@ -69,12 +74,14 @@ sim_run <- function(beta, X, beta_vec, data_trtgrps, cens_prop){
   beta["grp_diabetesc:grp_txyes"] <- beta_vec[6]
   beta["grp_diabetesd:grp_txyes"] <- beta_vec[7]
   
-  data_sim <- sim.survdata(N = nrow(data_trtgrps),
-                           T = 9 * 365,
-                           censor = cens_prop,
-                           type = 'none',
-                           X = X,
-                           beta = beta)
+  data_sim <- suppressWarnings(
+    sim.survdata(N = nrow(data_trtgrps),
+                 T = 9 * 365,
+                 censor = cens_prop,
+                 type = 'none',
+                 X = X,
+                 beta = beta)
+  )
   
   data_mdl <- data_trtgrps |> 
     mutate(time = data_sim$data$y,
@@ -83,34 +90,49 @@ sim_run <- function(beta, X, beta_vec, data_trtgrps, cens_prop){
   mdl_cox <- 
     coxph(Surv(time, status) ~ grp_diabetes * grp_tx, data = data_mdl)
   
-  mdl_cox_anova <- broom::tidy(anova(mdl_cox))
+  mdl_cox_anova <- anova(mdl_cox)
   
-  mdl_cox_bias <- beta[-1] - coef(mdl_cox) 
-  
+  # mdl_cox_bias <- beta[-1] - coef(mdl_cox) 
   # list(
   #   anova = mdl_cox_anova,
   #   bias = mdl_cox_bias
   # )
   
-  mdl_cox_anova
+  tidy(mdl_cox_anova)
   
   
 }
 
-results <- replicate(
-  n = 1000,
-  expr = sim_run(beta, 
-                 X, 
-                 beta_vec = beta_vec_static, 
-                 data_trtgrps, 
-                 cens_prop = 0.8),
-  simplify = FALSE
-)
+results <- expand_grid(
+  beta_vec = list(static = beta_vec_static, 
+                  decay10 = beta_vec_decay_10),
+  cens = c(0.6, 0.7, 0.8)
+) |> 
+  mutate(
+    beta_type = names(beta_vec),
+    results = map2(
+      .x = beta_vec, 
+      .y = cens, 
+      .f = ~ {
+        replicate(
+          n = 1000,
+          expr = sim_run(beta, X, .x, data_trtgrps, .y),
+          simplify = FALSE
+        )
+      }
+    )
+  )
+
+library(gt)
 
 results |> 
-  bind_rows(.id = 'iter') |> 
+  unnest(cols = results) |> 
+  unnest(cols = results) |> 
   filter(term == 'grp_diabetes:grp_tx') |> 
-  summarize(power = mean(p.value < 0.05))
+  group_by(cens, beta_type) |> 
+  summarize(power = mean(p.value < 0.05), .groups = 'drop') |> 
+  pivot_wider(names_from = beta_type, values_from = power) |> 
+  gt(rowname_col = 'beta_type')
 
 
 
