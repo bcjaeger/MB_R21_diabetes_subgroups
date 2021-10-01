@@ -8,6 +8,7 @@ library(coxed)
 library(survival)
 library(tidyverse)
 library(broom)
+library(gt)
 
 conflict_prefer("filter",    "dplyr")
 conflict_prefer("summarize", "dplyr")

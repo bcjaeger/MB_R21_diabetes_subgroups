@@ -1,0 +1,53 @@
+---
+title: "Power Simulation"
+author: "Byron C. Jaeger and Mike Bancks"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = FALSE)
+source(here::here("packages.R"))
+tar_load(names = results_gt)
+
+```
+
+## Aim 1
+
+to be filled in
+
+## Aim 2
+
+to be filled in
+
+## Aim 3
+
+```{r}
+results_gt
+```
+
+
+## Reproducibility
+
+<details><summary>Reproducibility receipt</summary>
+
+```{r}
+## datetime
+Sys.time()
+
+## repository
+if(requireNamespace('git2r', quietly = TRUE)) {
+  git2r::repository()
+} else {
+  c(
+    system2("git", args = c("log", "--name-status", "-1"), stdout = TRUE),
+    system2("git", args = c("remote", "-v"), stdout = TRUE)
+  )
+}
+
+## session info
+sessionInfo()
+```
+
+</details>

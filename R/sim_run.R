@@ -31,6 +31,7 @@ sim_run <- function(beta,
   
   mdl_cox_anova <- anova(mdl_cox)
   
+  
   # mdl_cox_bias <- beta[-1] - coef(mdl_cox) 
   # list(
   #   anova = mdl_cox_anova,

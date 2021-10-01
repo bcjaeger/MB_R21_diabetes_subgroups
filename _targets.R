@@ -36,8 +36,10 @@ tar_plan(
   results_filled = results_fill(results_init, 
                                 data_init, 
                                 data_xmat, 
-                                n_runs = 5)
-    
+                                n_runs = 100),
   
-
+  results_gt = results_tabulate(results_filled),
+  
+  tar_render(report, "doc/report.Rmd")
+  
 )
