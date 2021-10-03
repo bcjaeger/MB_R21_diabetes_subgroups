@@ -9,7 +9,7 @@ output: html_document
 
 knitr::opts_chunk$set(echo = FALSE)
 source(here::here("packages.R"))
-tar_load(names = results_gt)
+tar_load(names = results_aim3_gt)
 
 ```
 
@@ -24,7 +24,7 @@ to be filled in
 ## Aim 3
 
 ```{r}
-results_gt
+results_aim3_gt
 ```
 
 

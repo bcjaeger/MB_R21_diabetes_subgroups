@@ -13,6 +13,10 @@ sim_run <- function(beta,
                     data_xmat, 
                     time_max = 10*365){
 
+  
+  cat("\n", "beta:", round(beta,2), "\n",
+      "cens_prop:", 100*cens_prop, "\n")
+  
   data_sim <- suppressWarnings(
     sim.survdata(N = nrow(data_init),
                  T = time_max,
