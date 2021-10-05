@@ -42,13 +42,14 @@ tar_plan(
                                      n_runs = 250, 
                                      time_max = 11 * 365),
   
-  # results_aim2_add1 = results_fill(results_aim2_init,
-  #                                  data_aim2_init,
-  #                                  data_aim2_xmat,
-  #                                  n_runs = 250, 
-  #                                  time_max = 11 * 365),
+  results_aim2_add1 = results_fill(results_aim2_init,
+                                   data_aim2_init,
+                                   data_aim2_xmat,
+                                   n_runs = 250,
+                                   time_max = 11 * 365),
 
-  results_aim2_gt = results_tabulate(results_aim2_filled),
+  results_aim2_gt = results_tabulate(results_aim2_filled,
+                                     results_aim2_add1),
 
   # begin aim 3 here ----
                     # g1   g2   g3   g4
@@ -84,14 +85,15 @@ tar_plan(
                                      n_runs = 250, 
                                      time_max = 9 * 365),
   
-  # results_aim3_add1 = results_fill(results_aim3_init,
-  #                                  data_aim3_init,
-  #                                  data_aim3_xmat,
-  #                                  n_runs = 250, 
-  #                                  time_max = 9 * 365),
+  results_aim3_add1 = results_fill(results_aim3_init,
+                                   data_aim3_init,
+                                   data_aim3_xmat,
+                                   n_runs = 250,
+                                   time_max = 9 * 365),
   
   
-  results_aim3_gt = results_tabulate(results_aim3_filled),
+  results_aim3_gt = results_tabulate(results_aim3_filled,
+                                     results_aim3_add1),
   
   tar_render(report, "docs/index.Rmd")
   

@@ -4,9 +4,9 @@
 #'
 #' @title
 #' @param results_filled
-results_tabulate <- function(results_filled) {
+results_tabulate <- function(...) {
   
-  results_filled |> 
+  bind_rows(...) |> 
     unnest(results) |> 
     unnest(results) |>
     filter(term == 'grp_diabetes:grp_tx') |> 

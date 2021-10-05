@@ -9,7 +9,9 @@ output: html_document
 
 knitr::opts_chunk$set(echo = FALSE)
 source(here::here("packages.R"))
-tar_load(names = c(results_aim3_gt, results_aim2_gt))
+
+tar_load(names = c(results_aim3_gt, 
+                   results_aim2_gt))
 
 ```
 
