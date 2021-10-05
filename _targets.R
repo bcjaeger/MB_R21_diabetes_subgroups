@@ -42,11 +42,11 @@ tar_plan(
                                      n_runs = 250, 
                                      time_max = 11 * 365),
   
-  results_aim2_add1 = results_fill(results_aim2_init,
-                                   data_aim2_init,
-                                   data_aim2_xmat,
-                                   n_runs = 250, 
-                                   time_max = 11 * 365),
+  # results_aim2_add1 = results_fill(results_aim2_init,
+  #                                  data_aim2_init,
+  #                                  data_aim2_xmat,
+  #                                  n_runs = 250, 
+  #                                  time_max = 11 * 365),
 
   results_aim2_gt = results_tabulate(results_aim2_filled),
 
@@ -84,11 +84,11 @@ tar_plan(
                                      n_runs = 250, 
                                      time_max = 9 * 365),
   
-  results_aim3_add1 = results_fill(results_aim3_init,
-                                   data_aim3_init,
-                                   data_aim3_xmat,
-                                   n_runs = 250, 
-                                   time_max = 9 * 365),
+  # results_aim3_add1 = results_fill(results_aim3_init,
+  #                                  data_aim3_init,
+  #                                  data_aim3_xmat,
+  #                                  n_runs = 250, 
+  #                                  time_max = 9 * 365),
   
   
   results_aim3_gt = results_tabulate(results_aim3_filled),
