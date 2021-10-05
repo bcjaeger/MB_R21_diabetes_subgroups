@@ -13,12 +13,6 @@ results_tabulate <- function(results_filled) {
     group_by(cens, beta_type) |> 
     summarize(power = mean(p.value < 0.05), .groups = 'drop') |> 
     pivot_wider(names_from = beta_type, values_from = power) |> 
-    mutate(across(everything(), ~.x*100)) |>
-    gt(rowname_col = 'cens') |> 
-    tab_stubhead(label = '% Censored') |> 
-    cols_move_to_start('static') |> 
-    cols_label(static = '0', decay10 = '10', decay20 = '20') |> 
-    tab_spanner(columns = c('static', 'decay10', 'decay20'),
-                label = '% decay in effect size')
+    mutate(across(everything(), ~.x*100))
   
 }

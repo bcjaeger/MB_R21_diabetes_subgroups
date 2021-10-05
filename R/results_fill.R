@@ -7,7 +7,8 @@
 results_fill <- function(results_init,
                          data_init,
                          data_xmat,
-                         n_runs = 1) {
+                         n_runs = 1,
+                         time_max = 10*365) {
 
   mutate(
     results_init,
@@ -20,7 +21,8 @@ results_fill <- function(results_init,
           n = n_runs,
           expr = sim_run(.x, .y,
                          data_init, 
-                         data_xmat),
+                         data_xmat,
+                         time_max = time_max),
           simplify = FALSE
         )
       }
