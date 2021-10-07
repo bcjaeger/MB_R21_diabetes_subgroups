@@ -40,13 +40,13 @@ tar_plan(
                                      data_aim2_init,
                                      data_aim2_xmat,
                                      n_runs = 250, 
-                                     time_max = 11 * 365),
+                                     time_max = 12 * 365),
   
   results_aim2_add1 = results_fill(results_aim2_init,
                                    data_aim2_init,
                                    data_aim2_xmat,
                                    n_runs = 250,
-                                   time_max = 11 * 365),
+                                   time_max = 12 * 365),
 
   results_aim2_gt = results_tabulate(results_aim2_filled,
                                      results_aim2_add1),
