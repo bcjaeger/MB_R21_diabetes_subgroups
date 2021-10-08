@@ -33,7 +33,7 @@ tar_plan(
     beta_vec = list(static  = beta_aim2,
                     decay05 = beta_aim2_05,
                     decay10 = beta_aim2_10),
-    cens = c(0.85, 0.90, 0.95)
+    cens = c(0.8, 0.85, 0.9)
   ),
 
   results_aim2_filled = results_fill(results_aim2_init,
